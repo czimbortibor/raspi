@@ -3,12 +3,12 @@ on: [push]
 
 env:
   AZURE_FA_NAME: fa-we-raspiconsumer
-  FA_PACKAGE_PATH: '.'
+  FA_PACKAGE_PATH: './RaspiConsumer/src'
   DOTNET_VERSION: 6.0.x
 
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
       
 jobs:
   build-and-deploy:
