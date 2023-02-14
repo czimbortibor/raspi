@@ -1,0 +1,60 @@
+name: provision-infra-for-the-raspi-consumer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/RaspiConsumer/infra/**"
+
+env:
+  AZURE_RG: rg-we-business
+  TEMPLATE_PATH: $GITHUB_WORKSPACE/RaspiConsumer/infra/main.bicep
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Provision
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az deployment group validate \
+            --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            --template-file '${{ env.TEMPLATE_PATH }}'
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Provision
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az deployment group create \
+            --name ${{ github.run_number }}_${{ github.workflow_ref }} \
+            --resource-group ${{ env.AZURE_RG }} \
+            --template-file '${{ env.TEMPLATE_PATH }}'
