@@ -1,15 +1,14 @@
-name: provision-infra-for-the-raspi-consumer
+name: provision-infra-for-the-iothub
 
 on:
   push:
     branches: [main]
     paths:
-      - "**/RaspiConsumer/infra/**"
-      - "**/raspi-consumer_provision-infra.yml"
+      - "**/iothub_provision-infra.yml"
 
 env:
-  AZURE_RG: rg-we-business
-  TEMPLATE_PATH: ./RaspiConsumer/infra/rg-we-business.bicep
+  AZURE_RG: rg-we-iot
+  TEMPLATE_PATH: ./RaspiConsumer/infra/rg-we-iot.bicep
 
 permissions:
   id-token: write
@@ -35,7 +34,8 @@ jobs:
           inlineScript: |
             az deployment group validate \
             --resource-group ${{ env.AZURE_RG }} \
-            --template-file '${{ env.TEMPLATE_PATH }}'
+            --template-file '${{ env.TEMPLATE_PATH }} \
+            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}'
 
   deploy:
     needs: validate
@@ -58,4 +58,5 @@ jobs:
             az deployment group create \
             --name ${{ github.workflow }}_${{ github.run_number }} \
             --resource-group ${{ env.AZURE_RG }} \
-            --template-file '${{ env.TEMPLATE_PATH }}'
+            --template-file '${{ env.TEMPLATE_PATH }} \
+            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}'
