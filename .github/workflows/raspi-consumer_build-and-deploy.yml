@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - "**/RaspiConsumer/src/**"
+      - "./github/workflows/raspi-consumer_build-and-deploy.yml"
 
 env:
   AZURE_FA_NAME: fa-we-raspiconsumer
