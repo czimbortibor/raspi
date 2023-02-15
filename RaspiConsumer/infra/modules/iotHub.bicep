@@ -18,11 +18,11 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
   properties: {
     ipFilterRules: []
     networkRuleSets: {
-      defaultAction: 'Allow'
+      defaultAction: 'Deny'
       applyToBuiltInEventHubEndpoint: true
       ipRules: [
         {
-          filterName: 'The Developer\'s machine'
+          filterName: 'developer-machine'
           action: 'Allow'
           ipMask: allowedIpV4CIDR
         }
@@ -46,7 +46,16 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
           isEnabled: true
         }
       ]
+      fallbackRoute: {
+        isEnabled: false
+        name: '$fallback'
+        source: 'DeviceMessages'
+        endpointNames: [
+          'events'
+        ]
+      }
     }
+    enableDataResidency: false
     enableFileUploadNotifications: false
     cloudToDevice: {
       maxDeliveryCount: 10
@@ -57,7 +66,7 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
         maxDeliveryCount: 10
       }
     }
-    features: 'None'
+    features: 'DeviceManagement'
     publicNetworkAccess: 'Enabled'
     disableLocalAuth: false
     allowedFqdnList: []
