@@ -33,7 +33,7 @@ jobs:
         with:
           inlineScript: |
             az deployment group validate \
-            --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            --resource-group ${{ env.AZURE_RG }} \
             --template-file '${{ env.TEMPLATE_PATH }}'
 
   deploy:
