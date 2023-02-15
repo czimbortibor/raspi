@@ -7,7 +7,7 @@ resource LogAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 
 var functionAppName = 'fa-we-raspiconsumer'
 module functionAppModule 'modules/functionApp.bicep' = {
-  name: 'functionAppAndDependencies'
+  name: '${deployment().name}_functionAppAndDependencies'
   params: {
     location: location
     faName: functionAppName
