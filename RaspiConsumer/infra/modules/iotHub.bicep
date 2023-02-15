@@ -19,7 +19,7 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
     ipFilterRules: []
     networkRuleSets: {
       defaultAction: 'Deny'
-      applyToBuiltInEventHubEndpoint: true
+      applyToBuiltInEventHubEndpoint: false
       ipRules: [
         {
           filterName: 'developer-machine'
