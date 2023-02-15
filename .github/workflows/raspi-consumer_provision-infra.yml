@@ -28,7 +28,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Provision
+      - name: Run validation
         uses: azure/CLI@v1
         with:
           inlineScript: |
@@ -50,7 +50,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Provision
+      - name: Deploy
         uses: azure/CLI@v1
         with:
           inlineScript: |

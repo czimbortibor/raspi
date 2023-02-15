@@ -36,11 +36,12 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2021-07-02' existing = {
   scope: resourceGroup('rg-we-iot')
 }
 
+var iotHubBuiltinEndpointConnString = 'Endpoint=${IoTHub.properties.eventHubEndpoints.events.endpoint};SharedAccessKeyName=${listKeys(IoTHub.id, '2020-04-01').value[1].keyName};SharedAccessKey=${listKeys(IoTHub.id, '2020-04-01').value[1].primaryKey}'
 resource IoTHubConnectionStringKVSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   parent: KeyVault
   name: 'conn-raspi-iothub'
   properties: {
-    value: IoTHub.properties.eventHubEndpoints.service.endpoint
+    value: iotHubBuiltinEndpointConnString
   }
 }
 

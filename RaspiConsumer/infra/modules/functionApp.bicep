@@ -10,7 +10,7 @@ resource AppInsights 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   properties: {
     Application_Type: 'web'
-    RetentionInDays: 7
+    RetentionInDays: 30
     WorkspaceResourceId: logAnalyticsWorkspaceId
     IngestionMode: 'LogAnalytics'
     publicNetworkAccessForIngestion: 'Enabled'
