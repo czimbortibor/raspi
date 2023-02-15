@@ -34,8 +34,8 @@ jobs:
           inlineScript: |
             az deployment group validate \
             --resource-group ${{ env.AZURE_RG }} \
-            --template-file '${{ env.TEMPLATE_PATH }} \
-            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}'
+            --template-file ${{ env.TEMPLATE_PATH }} \
+            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}
 
   deploy:
     needs: validate
@@ -58,5 +58,5 @@ jobs:
             az deployment group create \
             --name ${{ github.workflow }}_${{ github.run_number }} \
             --resource-group ${{ env.AZURE_RG }} \
-            --template-file '${{ env.TEMPLATE_PATH }} \
-            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}'
+            --template-file ${{ env.TEMPLATE_PATH }} \
+            --parameters allowedIpV4CIDR=${{ secrets.DEV_MACHINE_IP }}
