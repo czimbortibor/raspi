@@ -56,6 +56,6 @@ jobs:
         with:
           inlineScript: |
             az deployment group create \
-            --name ${{ github.run_number }}_${{ github.workflow_ref }} \
+            --name ${{ github.workflow }}_${{ github.run_number }} \
             --resource-group ${{ env.AZURE_RG }} \
             --template-file '${{ env.TEMPLATE_PATH }}'
