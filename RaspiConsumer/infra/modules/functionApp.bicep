@@ -2,6 +2,8 @@ param location string
 
 param logAnalyticsWorkspaceId string
 
+param faName string
+
 param eventHubConnectionStringKVReference string
 
 resource AppInsights 'Microsoft.Insights/components@2020-02-02' = {
@@ -46,7 +48,6 @@ resource AppPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   }
 }
 
-var faName = 'fa-we-raspiconsumer'
 resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
   name: faName
   location: location

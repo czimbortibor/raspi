@@ -5,10 +5,12 @@ resource LogAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
   scope: resourceGroup('DefaultResourceGroup-WEU')
 }
 
+var functionAppName = 'fa-we-raspiconsumer'
 module functionAppModule 'modules/functionApp.bicep' = {
   name: 'functionAppAndDependencies'
   params: {
     location: location
+    faName: functionAppName
     logAnalyticsWorkspaceId: LogAnalyticsWorkspace.id
     eventHubConnectionStringKVReference: '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
   }
@@ -51,7 +53,7 @@ resource KVSecretsUserRoleDefinition 'Microsoft.Authorization/roleDefinitions@20
 
 resource KVSecretsUserRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: KeyVault
-  name: guid(deployment().name, KeyVault.id, KVSecretsUserRoleDefinition.id)
+  name: guid(functionAppName, KeyVault.id, KVSecretsUserRoleDefinition.id)
   properties: {
     roleDefinitionId: KVSecretsUserRoleDefinition.id
     principalId: functionAppModule.outputs.principalId
