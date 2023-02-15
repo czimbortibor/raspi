@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "**/RaspiConsumer/infra/**"
-      - "./github/workflows/raspi-consumer_provision-infra.yml"
+      - "**/raspi-consumer_provision-infra.yml"
 
 env:
   AZURE_RG: rg-we-business
