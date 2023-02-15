@@ -37,7 +37,7 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
-          pushd './${{ env.FA_PACKAGE_PATH }}'
+          pushd '${{ env.FA_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./publish
           popd
 

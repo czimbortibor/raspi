@@ -9,7 +9,7 @@ on:
 
 env:
   AZURE_RG: rg-we-business
-  TEMPLATE_PATH: $GITHUB_WORKSPACE/RaspiConsumer/infra/main.bicep
+  TEMPLATE_PATH: ./RaspiConsumer/infra/main.bicep
 
 permissions:
   id-token: write

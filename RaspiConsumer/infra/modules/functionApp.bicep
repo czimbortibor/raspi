@@ -67,6 +67,7 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
       acrUseManagedIdentityCreds: false
       functionAppScaleLimit: 10
       minTlsVersion: '1.2'
+      ftpsState: 'Disabled'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
