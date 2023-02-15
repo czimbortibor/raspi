@@ -55,11 +55,7 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
   }
   kind: 'functionapp'
   identity: {
-    type: 'SystemAssigned, UserAssigned'
-    userAssignedIdentities: {
-      '/subscriptions/7d9dae89-eedb-4c22-9778-5659626c3853/resourcegroups/rg-we-support/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-we-githubactionworkload': {
-      }
-    }
+    type: 'SystemAssigned'
   }
   properties: {
     serverFarmId: AppPlan.id
