@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Host": {
+    "CORS": "*"
+  },
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "EventHubConnectionString": "Endpoint=sb://iothub-ns-raspi-24219638-521d3983f0.servicebus.windows.net/;SharedAccessKeyName=service;SharedAccessKey=EIe0dGRc9iPD953IErGhFgrcQ6ullZoepk60ZVcmYts=",
+    "AzureSignalRConnectionString": "Endpoint=https://signalr-we.service.signalr.net;AccessKey=Y+G4WCtXwsNV+r551X0MjyILR1sWo1DuLKFg1ZAlN0A=;Version=1.0;"
+  }
+}
