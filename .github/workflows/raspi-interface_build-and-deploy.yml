@@ -45,7 +45,7 @@ jobs:
 
       - uses: azure/CLI@v1
         with:
-          inclineScript: |
+          inlineScript: |
             az resource list --query "[?resourceGroup=='rg-we-interface']" 
 
       - name: Deploy
