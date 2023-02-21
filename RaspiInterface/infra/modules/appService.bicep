@@ -28,6 +28,9 @@ resource AppService 'Microsoft.Web/sites@2022-03-01' = {
   identity: {
     type: 'SystemAssigned'
   }
+  tags: {
+    'hidden-link: /app-insights-resource-id': AppInsights.id
+  }
   properties: {
     serverFarmId: AppServicePlan.id
     httpsOnly: true
