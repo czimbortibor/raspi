@@ -9,7 +9,7 @@ on:
 env:
   DOTNET_VERSION: 7.0.x
   APP_PATH: ./RaspiInterface/src/Server
-  APP_PUBLISH_PATH: ./publish
+  APP_PUBLISH_PATH: ${{ github.workspace}}/publish
   APP_SERVICE_NAME: app-we-interface
 
 permissions:
@@ -42,11 +42,6 @@ jobs:
           dotnet build --configuration Release
           dotnet publish -c Release -o '${{ env.APP_PUBLISH_PATH }}'
           popd
-
-      - uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az resource list --query "[?resourceGroup=='rg-we-interface']" 
 
       - name: Deploy
         uses: azure/webapps-deploy@v2
