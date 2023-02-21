@@ -37,7 +37,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/checkout@v3
       - uses: './.github/actions/deploy-infra'
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
