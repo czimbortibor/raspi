@@ -43,6 +43,11 @@ jobs:
           dotnet publish -c Release -o '${{ env.APP_PUBLISH_PATH }}'
           popd
 
+      - uses: azure/CLI@v1
+        with:
+          inclineScript: |
+            az resource list --query "[?resourceGroup=='rg-we-interface']" 
+
       - name: Deploy
         uses: azure/webapps-deploy@v2
         with: 
