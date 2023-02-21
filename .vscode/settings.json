@@ -1,0 +1,10 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-action.json": [
+            "**/.github/workflows/actions/*.yml"
+        ],
+        "https://json.schemastore.org/github-workflow.json": [
+            "**/.github/workflows/*.yml"
+        ],
+    }
+}

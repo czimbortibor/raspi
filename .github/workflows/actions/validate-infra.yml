@@ -1,0 +1,37 @@
+name: Validate Azure resource template
+description: Validates an ARM or Bicep template
+
+inputs:
+  client-id:
+    description: Application (client) ID for the service principal
+    required: true
+  tenant-id:
+    description: Azure Tenant ID, where the federated workload credentials are stored
+    required: true
+  subscription-id:
+    description: Subscription ID in the Azure Tenant
+    required: true
+  resource-group:
+    description: Name of the Azure resource group where the deployment should occur
+    required: true
+  template-path:
+    description: Path to the ARM or Bicep template file
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        client-id: ${{ inputs.client-id }}
+        tenant-id: ${{ inputs.tenant-id }}
+        subscription-id: ${{ inputs.subscription-id }}
+
+    - name: Run validation
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az deployment group validate \
+          --resource-group ${{ inputs.resource-group }} \
+          --template-file '${{ inputs.template-path }}'

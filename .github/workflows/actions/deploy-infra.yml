@@ -1,0 +1,40 @@
+name: Deploy Azure resource template
+description: Deploys an ARM or Bicep template
+
+inputs:
+  client-id:
+    description: Application (client) ID for the service principal
+    required: true
+  tenant-id:
+    description: Azure Tenant ID, where the federated workload credentials are stored
+    required: true
+  subscription-id:
+    description: Subscription ID in the Azure Tenant
+    required: true
+  resource-group:
+    description: Name of the Azure resource group where the deployment should occur
+    required: true
+  template-path:
+    description: Path to the ARM or Bicep template file
+    required: true
+  deployment-name:
+    description: A name for the deployment resource (ideally to be unique, see the \'deployments\' naming restrictions at https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftresources)
+
+runs:
+  using: composite
+  steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        client-id: ${{ inputs.client-id }}
+        tenant-id: ${{ inputs.tenant-id }}
+        subscription-id: ${{ inputs.subscription-id }}
+
+    - name: Deploy
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az deployment group create \
+          --name ${{ inputs.deployment-name }} \
+          --resource-group ${{ inputs.resource-group }} \
+          --template-file '${{ inputs.template-path }}'
