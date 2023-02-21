@@ -2,9 +2,13 @@ param appServiceName string
 
 param appServicePlanName string
 
+param appInsightsName string
+
 param sku string = 'F1'
 
 param location string
+
+param logAnalyticsWorkspaceId string
 
 resource AppServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanName
@@ -32,9 +36,25 @@ resource AppService 'Microsoft.Web/sites@2022-03-01' = {
       alwaysOn: false
       http20Enabled: true
       webSocketsEnabled: true
+      ftpsState: 'Disabled'
+      netFrameworkVersion: 'v7.0'
       appSettings: [
         
       ]
     }
+  }
+}
+
+resource AppInsights 'microsoft.insights/components@2020-02-02' = {
+  name: appInsightsName
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    RetentionInDays: 30
+    WorkspaceResourceId: logAnalyticsWorkspaceId
+    IngestionMode: 'LogAnalytics'
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
   }
 }
