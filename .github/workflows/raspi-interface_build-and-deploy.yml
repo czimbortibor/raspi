@@ -1,0 +1,50 @@
+name: Build & Deploy the Raspi Interface app
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/RaspiInterface/src/**"
+      - "**/raspi-interface_build-and-deploy.yml"
+
+env:
+  DOTNET_VERSION: 7.0.x
+  APP_PATH: ./RaspiInterface/src/Server
+  APP_PUBLISH_PATH: ./publish
+  APP_SERVICE_NAME: app-we-interface
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup .NET ${{ env.DOTNET_VERSION }} env
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Build and publish
+        run: |
+          pushd '${{ env.APP_PATH }}'
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o '${{ env.APP_PUBLISH_PATH }}'
+          popd
+
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.APP_SERVICE_NAME }}
+          package: '${{ env.APP_PUBLISH_PATH }}'
