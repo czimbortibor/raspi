@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,14 +29,8 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore NuGet packages
-        run: dotnet restore '${{ env.APP_PATH }}'
-
-      - name: Build
-        run: dotnet build '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
-        
       - name: Publish
-        run: dotnet publish '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --output '${{ env.APP_PUBLISH_PATH }}'
+        run: dotnet publish '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }} --output '${{ env.APP_PUBLISH_PATH }}'
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v3
@@ -44,7 +38,6 @@ jobs:
           name: raspiapp
           path: ${{ env.APP_PUBLISH_PATH }}
       
-
   deploy:
       needs: build
       runs-on: ubuntu-latest
