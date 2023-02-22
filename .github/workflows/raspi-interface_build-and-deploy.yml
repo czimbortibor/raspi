@@ -29,10 +29,13 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Build
+        run: dotnet build '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }}
+        
       - name: Publish
-        run: dotnet publish '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }} --output '${{ env.APP_PUBLISH_PATH }}'
+        run: dotnet publish '${{ env.APP_PATH }}' --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --output '${{ env.APP_PUBLISH_PATH }}'
 
-      - name: Publish Artifacts
+      - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: raspiapp
