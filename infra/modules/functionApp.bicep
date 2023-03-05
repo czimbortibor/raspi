@@ -8,6 +8,9 @@ param iotHubConnectionStringKVReference string
 
 param iotHubName string
 
+@secure()
+param signalRConnectionString string
+
 resource AppInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: 'ai-we-raspiconsumer'
   location: location
@@ -103,6 +106,10 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'iotHubName'
           value: iotHubName
+        }
+        {
+          name: 'AzureSignalRConnectionString'
+          value: signalRConnectionString
         }
       ]
     }

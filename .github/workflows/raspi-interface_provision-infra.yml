@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "**/RaspiInterface/infra/**"
+      - "**/rg-we-interface.bicep"
       - "**/raspi-interface_provision-infra.yml"
 
 env:
   AZURE_RG: rg-we-interface
-  TEMPLATE_PATH: ./RaspiInterface/infra/rg-we-interface.bicep
+  TEMPLATE_PATH: ./infra/rg-we-interface.bicep
 
 permissions:
   id-token: write

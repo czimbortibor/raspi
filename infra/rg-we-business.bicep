@@ -5,6 +5,8 @@ resource LogAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
   scope: resourceGroup('DefaultResourceGroup-WEU')
 }
 
+var iotHubConnectionStringKvRef = '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
+var signalRConnectionString = 'Endpoint=https://${SignalRService.properties.hostName};AuthType=azure.msi;Version=1.0;'
 var functionAppName = 'fa-we-raspiconsumer'
 module functionAppModule 'modules/functionApp.bicep' = {
   name: '${deployment().name}_functionApp'
@@ -12,8 +14,9 @@ module functionAppModule 'modules/functionApp.bicep' = {
     location: location
     faName: functionAppName
     logAnalyticsWorkspaceId: LogAnalyticsWorkspace.id
-    iotHubConnectionStringKVReference: '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
+    iotHubConnectionStringKVReference: iotHubConnectionStringKvRef
     iotHubName: IoTHub.properties.eventHubEndpoints.events.path
+    signalRConnectionString: signalRConnectionString
   }
 }
 
@@ -60,4 +63,9 @@ resource KVSecretsUserRoleAssignment 'Microsoft.Authorization/roleAssignments@20
     principalId: functionAppModule.outputs.principalId
     principalType: 'ServicePrincipal'
   }
+}
+
+resource SignalRService 'Microsoft.SignalRService/signalR@2022-02-01' existing = {
+  name: 'signalr-we'
+  scope: resourceGroup('rg-we-support')
 }

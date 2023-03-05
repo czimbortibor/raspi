@@ -3,12 +3,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "**/RaspiConsumer/src/**"
+      - "**/RaspiConsumer/**"
       - "**/raspi-consumer_build-and-deploy.yml"
 
 env:
   AZURE_FA_NAME: fa-we-raspiconsumer
-  FA_PACKAGE_PATH: ./RaspiConsumer/src
+  FA_PACKAGE_PATH: ./RaspiConsumer
   DOTNET_VERSION: 6.0.x
 
 permissions:

@@ -3,13 +3,13 @@ on:
   push:
     branches: [main]
     paths:
-      - "**/RaspiInterface/src/**"
+      - "**/RaspiInterface/**"
       - "**/raspi-interface_build-and-deploy.yml"
 
 env:
   DOTNET_VERSION: 7.0.x
   BUILD_CONFIGURATION: Release
-  APP_PATH: ./RaspiInterface/src/Server
+  APP_PATH: ./RaspiInterface/Server
   APP_PUBLISH_PATH: ${{ github.workspace}}/publish
   APP_SERVICE_NAME: app-we-interface
 
