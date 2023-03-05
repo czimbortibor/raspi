@@ -400,6 +400,5 @@ FodyWeavers.xsd
 
 # custom
 **/.venv/
-**/wwwroot/
 **/appsettings.[dD]evelopment.json
 **/local.settings.json
