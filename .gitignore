@@ -399,6 +399,6 @@ FodyWeavers.xsd
 
 
 # custom
-**/.venv/
+**/.env/
 **/appsettings.[dD]evelopment.json
 **/local.settings.json
