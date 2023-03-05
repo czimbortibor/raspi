@@ -14,8 +14,8 @@ resource SignalRService 'Microsoft.SignalRService/signalR@2022-02-01' existing =
   name: signalRName
 }
 
-resource ContributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
-  name: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+resource SignalRRestApiOwnerRole 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+  name: 'fd53cd77-2268-407a-8f46-7e7863d0f521'
 }
 
 resource FunctionApp 'Microsoft.Web/sites@2022-03-01' existing = {
@@ -23,12 +23,12 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' existing = {
   scope: resourceGroup('rg-we-business')
 }
 
-resource RoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource SignalRRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: SignalRService
   dependsOn: [signalRModule]
-  name: guid(FunctionApp.name, signalRName, ContributorRoleDefinition.id)
+  name: guid(FunctionApp.name, signalRName, SignalRRestApiOwnerRole.id)
   properties: {
-    roleDefinitionId: ContributorRoleDefinition.id
+    roleDefinitionId: SignalRRestApiOwnerRole.id
     principalId: FunctionApp.identity.principalId
     principalType: 'ServicePrincipal'
   }
