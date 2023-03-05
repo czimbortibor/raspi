@@ -12,7 +12,8 @@ module functionAppModule 'modules/functionApp.bicep' = {
     location: location
     faName: functionAppName
     logAnalyticsWorkspaceId: LogAnalyticsWorkspace.id
-    eventHubConnectionStringKVReference: '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
+    iotHubConnectionStringKVReference: '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
+    iotHubName: IoTHub.properties.eventHubEndpoints.events.path
   }
 }
 

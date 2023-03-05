@@ -8,22 +8,22 @@ using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 
 namespace RaspiConsumer
 {
-    public class Test
+    public class IotHub
     {
-        private const string IoTHubName = "raspi";
-        private const string IoTHubConnectionStringConfigName = "EventHubConnectionString";
+        private const string IoTHubName = "%iotHubName%";
+        private const string IoTHubConnectionStringConfigName = "IotHubConnectionString";
 
         private const string SignalRHubName = "interface";
         private const string NewMessageTarget = "NewMessage";
 
-        [FunctionName("Test")]
-        public Task Run(
+        [FunctionName("ForwardToSignalR")]
+        public Task ForwardToSignalR(
             [IoTHubTrigger(IoTHubName, Connection = IoTHubConnectionStringConfigName)]EventData message, 
             [SignalR(HubName = SignalRHubName)] IAsyncCollector<SignalRMessage> signalRMessages, 
             ILogger log)
         {
             var rawMessage = Encoding.UTF8.GetString(message.EventBody.ToArray());
-            log.LogInformation($"IoT Hub message: {rawMessage}");
+            log.LogDebug($"IoT Hub message: {rawMessage}");
 
             return signalRMessages.AddAsync(
                 new SignalRMessage

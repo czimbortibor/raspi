@@ -4,7 +4,9 @@ param logAnalyticsWorkspaceId string
 
 param faName string
 
-param eventHubConnectionStringKVReference string
+param iotHubConnectionStringKVReference string
+
+param iotHubName string
 
 resource AppInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: 'ai-we-raspiconsumer'
@@ -95,8 +97,12 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
           value: '1'
         }
         {
-          name: 'EventHubConnectionString'
-          value: eventHubConnectionStringKVReference
+          name: 'IotHubConnectionString'
+          value: iotHubConnectionStringKVReference
+        }
+        {
+          name: 'iotHubName'
+          value: iotHubName
         }
       ]
     }

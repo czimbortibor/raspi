@@ -2,6 +2,10 @@ param location string
 
 param name string
 
+param sku string = 'F1'
+
+param capacity int = 1
+
 @secure()
 param allowedIpV4CIDR string
 
@@ -9,8 +13,8 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
   name: name
   location: location
   sku: {
-    name: 'S1'
-    capacity: 1
+    name: sku
+    capacity: capacity
   }
   identity: {
     type: 'SystemAssigned'
