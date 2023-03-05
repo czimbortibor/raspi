@@ -6,9 +6,6 @@ param sku string = 'F1'
 
 param capacity int = 1
 
-@secure()
-param allowedIpV4CIDR string
-
 resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
   name: name
   location: location
@@ -21,17 +18,6 @@ resource IoTHub 'Microsoft.Devices/IotHubs@2022-04-30-preview' = {
   }
   properties: {
     ipFilterRules: []
-    networkRuleSets: {
-      defaultAction: 'Deny'
-      applyToBuiltInEventHubEndpoint: false
-      ipRules: [
-        {
-          filterName: 'developer-machine'
-          action: 'Allow'
-          ipMask: allowedIpV4CIDR
-        }
-      ]
-    }
     eventHubEndpoints: {
       events: {
         retentionTimeInDays: 1
