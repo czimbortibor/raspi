@@ -1,0 +1,84 @@
+﻿@page "/devices"
+
+@using RaspiInterface.Client.Services;
+@using RaspiInterface.Shared;
+@using GoogleMapsComponents
+@using GoogleMapsComponents.Maps
+
+@inject IDeviceClient DeviceClient
+
+
+<PageTitle>Known devices</PageTitle>
+
+<GoogleMap @ref="@map" Id="map" Options="@mapOptions"></GoogleMap>
+
+<button @onclick="LoadDevices">Show devices</button>
+
+
+@code {
+    private GoogleMap map = default!;
+
+    private MapOptions mapOptions = default!;
+
+    private List<Marker> markers = new List<Marker>();
+
+    private MarkerClustering markerClustering = default!;
+
+    protected override void OnInitialized()
+    {
+        mapOptions = new MapOptions()
+        {
+            Zoom = 7,
+            Center = new LatLngLiteral
+            {
+                Lat = 52.304173,
+                Lng = 4.835277
+            },
+            MapTypeId = MapTypeId.Roadmap
+        };
+    }
+
+    private async Task LoadDevices()
+    {
+        var devices = await DeviceClient.GetDevices();
+        if (!devices.Any())
+        {
+            return;
+        }
+
+        markers = (await GetMarkers(devices, map.InteropObject)).ToList();
+        await CreateMarkerClusters(markers);
+    }
+
+    private async Task CreateMarkerClusters(IEnumerable<Marker> markers)
+    {
+        markerClustering = await MarkerClustering.CreateAsync(map.JsRuntime, map.InteropObject, markers);
+
+        var firstMarkerPosition = await markers.First().GetPosition();
+        var boundsLiteral = new LatLngBoundsLiteral(new LatLngLiteral { Lat = firstMarkerPosition.Lat, Lng = firstMarkerPosition.Lng });
+        foreach (var marker in markers)
+        {
+            var position = await marker.GetPosition();
+            LatLngBoundsLiteral.CreateOrExtend(ref boundsLiteral, position);
+        }
+
+        await map.InteropObject.FitBounds(boundsLiteral, OneOf.OneOf<int, GoogleMapsComponents.Maps.Coordinates.Padding>.FromT0(1));
+    }
+
+    private async Task<IEnumerable<Marker>> GetMarkers(IEnumerable<Device> devices, Map interopMap)
+    {
+        var result = new List<Marker>(devices.Count());
+        foreach (var device in devices)
+        {
+            var marker = await Marker.CreateAsync(map.JsRuntime, new MarkerOptions
+                {
+                    Position = new LatLngLiteral(device.Location.Latitude, device.Location.Longitude),
+                    Map = interopMap,
+                    Label = device.Name
+                });
+            result.Add(marker);
+        }
+
+        return result;
+    }
+}

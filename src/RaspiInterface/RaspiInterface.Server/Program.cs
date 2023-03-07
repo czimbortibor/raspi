@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.ResponseCompression;
+﻿using Microsoft.AspNetCore.ResponseCompression;
 using RaspiInterface.Server.Hubs;
+using Server.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +16,18 @@ builder.Services.AddResponseCompression(opts =>
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 });
 
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -41,5 +48,7 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapHub<Interface>("/interface");
 app.MapFallbackToFile("index.html");
+
+app.MapDeviceEndpoints();
 
 app.Run();

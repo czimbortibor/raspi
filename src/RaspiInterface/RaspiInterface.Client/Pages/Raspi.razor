@@ -18,6 +18,8 @@
     private HubConnection? hubConnection;
     private List<string> messages = new();
 
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
@@ -34,6 +36,11 @@
         await hubConnection.StartAsync();
     }
 
-    public bool IsConnected =>
-        hubConnection?.State == HubConnectionState.Connected;
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
 }
