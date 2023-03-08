@@ -10,7 +10,8 @@ env:
   DOTNET_VERSION: 7.0.x
   BUILD_CONFIGURATION: Release
   APP_PATH: ./src/RaspiInterface/Server
-  TESTS_PATH: ./test/RaspiInterface/**/bin/**/*.Tests.dll
+  TESTS_PATH: ./test/RaspiInterface
+  TESTS_DLL_FILTER: ./test/RaspiInterface/**/bin/**/*.Tests.dll
   APP_PUBLISH_PATH: ${{ github.workspace}}/publish
   APP_SERVICE_NAME: app-we-interface
 
@@ -30,11 +31,11 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Build
-        run: dotnet build '${{ env.APP_PATH }}'
+      - name: Build test projects
+        run: dotnet build '${{ env.TESTS_PATH }}'
 
       - name: Run integration tests
-        run: dotnet test '${{ env.TESTS_PATH }}' --filter Category=Integration
+        run: dotnet test '${{ env.TESTS_DLL_FILTER }}' --filter Category=Integration --no-build
 
   package:
     needs: validate
