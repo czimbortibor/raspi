@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Server", "Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Shared", "Shared\RaspiInterface.Shared.csproj", "{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Server.Tests", "..\..\test\RaspiInterface\RaspiInterface.Server.Tests\RaspiInterface.Server.Tests.csproj", "{7B2A3AD3-CB3A-4E94-921B-7E81A1530957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B2A3AD3-CB3A-4E94-921B-7E81A1530957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B2A3AD3-CB3A-4E94-921B-7E81A1530957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B2A3AD3-CB3A-4E94-921B-7E81A1530957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B2A3AD3-CB3A-4E94-921B-7E81A1530957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

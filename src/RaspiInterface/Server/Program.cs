@@ -53,3 +53,6 @@ app.MapFallbackToFile("index.html");
 app.MapRoutes();
 
 app.Run();
+
+
+public partial class Program { }

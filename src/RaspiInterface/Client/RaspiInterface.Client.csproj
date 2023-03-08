@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RaspiInterface.Shared\RaspiInterface.Shared.csproj" />
+    <ProjectReference Include="..\Shared\RaspiInterface.Shared.csproj" />
   </ItemGroup>
 
 </Project>
