@@ -25,4 +25,18 @@ public class DeviceClient : IDeviceClient
             throw;
         }
     }
+
+    public async Task<DeviceDetails?> GetDevice(string deviceId)
+    {
+        try
+        {
+            var response = await httpClient.GetFromJsonAsync<DeviceDetails>($"api/devices/{deviceId}");
+            return response;
+        }
+        catch (Exception)
+        {
+            // just propagate for now
+            throw;
+        }
+    }
 }

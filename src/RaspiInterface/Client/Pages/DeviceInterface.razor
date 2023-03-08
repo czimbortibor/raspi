@@ -1,0 +1,82 @@
+﻿@page "/devices/{deviceId}"
+
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Http.Connections
+@using RaspiInterface.Client.Services
+@using RaspiInterface.Shared;
+@inject NavigationManager Navigation
+@inject IDeviceClient DeviceClient
+@implements IAsyncDisposable
+
+<PageTitle>Device interface</PageTitle>
+
+<div>
+    @if (device == null)
+    {
+        <text>Fetching device info...</text>
+    }
+    else
+    {
+        <div>
+            <ul>
+                <li>Name: @device.Name</li>
+                <li>Status: @device.Status</li>
+                <li>ETag: @device.ETag</li>
+                <li>Last active on: @device.LastActivityTime</li>
+            </ul>
+        </div>
+
+        <h4>Live telemetry:</h4>
+        <ul>
+            @foreach (var telemetry in liveTelemetry)
+            {
+                <li>@telemetry</li>
+            }
+        </ul>
+    }
+</div>
+
+
+@code {
+    HubConnection? hubConnection;
+    DeviceDetails? device;
+    List<string> liveTelemetry = new();
+
+    [Parameter] public string DeviceId { get; set; } = null!;
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/interface"), options => { })
+            .Build();
+
+        hubConnection.On<string>("NewMessage", (message) =>
+        {
+            var encodedMsg = $"{message}";
+            liveTelemetry.Add(encodedMsg);
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetDetails();
+    }
+
+    private async Task GetDetails()
+    {
+        device = await DeviceClient.GetDevice(DeviceId);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

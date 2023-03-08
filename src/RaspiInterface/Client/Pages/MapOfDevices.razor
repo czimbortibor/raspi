@@ -1,10 +1,10 @@
 ﻿@page "/devices"
 
-@using RaspiInterface.Client.Services;
-@using RaspiInterface.Shared;
+@using RaspiInterface.Client.Services
+@using RaspiInterface.Shared
 @using GoogleMapsComponents
 @using GoogleMapsComponents.Maps
-
+@inject NavigationManager NavigationManager
 @inject IDeviceClient DeviceClient
 
 
@@ -74,8 +74,15 @@
                 {
                     Position = new LatLngLiteral(device.Location.Latitude, device.Location.Longitude),
                     Map = interopMap,
-                    Label = device.Name
+                    Label = device.Name,
                 });
+
+
+            await marker.AddListener<MouseEvent>("click", async e =>
+            {
+                NavigationManager.NavigateTo($"devices/{device.Name}");
+            });
+
             result.Add(marker);
         }
 

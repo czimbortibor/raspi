@@ -22,6 +22,11 @@ public class DeviceModule : IModule
             .MapGet("/", GetDevices.Handler)
             .Produces<List<Device>>(200);
 
+        endpointsGroup
+            .MapGet("/{deviceId}", (string deviceId) => GetDevice.Handler(deviceId))
+            .Produces<DeviceDetails>(200)
+            .ProducesProblem(404);
+
         return endpointsGroup;
     }
 }
