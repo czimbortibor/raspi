@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.ResponseCompression;
 using RaspiInterface.Server.Hubs;
-using Server.Controllers;
+using RaspiInterface.Server.Modules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +17,9 @@ builder.Services.AddResponseCompression(opts =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen();
+
+builder.Services.RegisterModules();
 
 
 var app = builder.Build();
@@ -49,6 +50,6 @@ app.MapControllers();
 app.MapHub<Interface>("/interface");
 app.MapFallbackToFile("index.html");
 
-app.MapDeviceEndpoints();
+app.MapRoutes();
 
 app.Run();

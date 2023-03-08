@@ -1,16 +1,12 @@
 ﻿using RaspiInterface.Shared;
 
-namespace Server.Controllers;
+namespace RaspiInterface.Server.Modules.Devices.Endpoints;
 
-public static class DeviceEndpoints
+public static class GetDevices
 {
-    public static void MapDeviceEndpoints(this IEndpointRouteBuilder routes)
+    public static IResult Handler()
     {
-        var group = routes.MapGroup("/api/devices").WithTags(nameof(Device));
-
-        group.MapGet("/", () =>
-        {
-            return new List<Device>()
+        var devices = new List<Device>
             {
                 new Device()
                 {
@@ -56,8 +52,8 @@ public static class DeviceEndpoints
                     }
                 }
             };
-        })
-        .WithName("GetAllDevices")
-        .WithOpenApi();
+
+
+        return Results.Ok(devices);
     }
 }
