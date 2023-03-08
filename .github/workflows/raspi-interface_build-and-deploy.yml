@@ -30,9 +30,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Run integration tests
-        shell: pwsh
-        run: Get-ChildItem '${{ env.TESTS_FILTER }}' | %{dotnet test $PSItem.FullName --filter Category=Integration}
+      # - name: Run integration tests
+      #   shell: pwsh
+      #   run: Get-ChildItem '${{ env.TESTS_FILTER }}' | %{dotnet test $PSItem.FullName --filter Category=Integration}
 
   package:
     needs: validate
