@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Client", "RaspiInterface.Client\RaspiInterface.Client.csproj", "{8801306E-9CBD-4A78-8CBD-C3C261543AF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Client", "Client\RaspiInterface.Client.csproj", "{8801306E-9CBD-4A78-8CBD-C3C261543AF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Server", "RaspiInterface.Server\RaspiInterface.Server.csproj", "{94F89BE7-5CD2-4E84-B025-E903395DC975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Server", "Server\RaspiInterface.Server.csproj", "{94F89BE7-5CD2-4E84-B025-E903395DC975}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Shared", "RaspiInterface.Shared\RaspiInterface.Shared.csproj", "{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaspiInterface.Shared", "Shared\RaspiInterface.Shared.csproj", "{A4C79C4A-7D4A-4477-BCE7-348F6AAF8F00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
