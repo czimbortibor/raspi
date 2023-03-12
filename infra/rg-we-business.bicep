@@ -7,6 +7,7 @@ resource LogAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 
 var iotHubConnectionStringKvRef = '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${IoTHubConnectionStringKVSecret.name})'
 var signalRConnectionString = 'Endpoint=https://${SignalRService.properties.hostName};AuthType=azure.msi;Version=1.0;'
+var cosmosDbConnectionString = '@Microsoft.KeyVault(VaultName=${KeyVault.name};SecretName=${CosmosDbAccountConnectiongStringKVSecret.name})'
 var functionAppName = 'fa-we-raspiconsumer'
 module functionAppModule 'modules/functionApp.bicep' = {
   name: '${deployment().name}_functionApp'
@@ -14,9 +15,12 @@ module functionAppModule 'modules/functionApp.bicep' = {
     location: location
     faName: functionAppName
     logAnalyticsWorkspaceId: LogAnalyticsWorkspace.id
-    iotHubConnectionStringKVReference: iotHubConnectionStringKvRef
+    iotHubConnectionString: iotHubConnectionStringKvRef
     iotHubName: IoTHub.properties.eventHubEndpoints.events.path
+    // TODO: managed identity
     signalRConnectionString: signalRConnectionString
+    // TODO: managed identity
+    cosmosDbConnectionString: cosmosDbConnectionString
   }
 }
 
@@ -51,6 +55,14 @@ resource IoTHubConnectionStringKVSecret 'Microsoft.KeyVault/vaults/secrets@2022-
   }
 }
 
+resource CosmosDbAccountConnectiongStringKVSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+  parent: KeyVault
+  name: 'conn-raspi-cosmos'
+  properties: {
+    value: CosmosDbAcc.listConnectionStrings().connectionStrings[0].connectionString
+  }
+}
+
 resource KVSecretsUserRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
   name: '4633458b-17de-408a-b874-0445c86b69e6'
 }
@@ -68,4 +80,10 @@ resource KVSecretsUserRoleAssignment 'Microsoft.Authorization/roleAssignments@20
 resource SignalRService 'Microsoft.SignalRService/signalR@2022-02-01' existing = {
   name: 'signalr-we'
   scope: resourceGroup('rg-we-support')
+}
+
+// TODO: define in iac
+resource CosmosDbAcc 'Microsoft.DocumentDB/databaseAccounts@2022-11-15' existing = {
+  name: 'cosmos-raspi'
+  scope: resourceGroup('rg-we-storage')
 }

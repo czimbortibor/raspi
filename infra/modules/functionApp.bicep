@@ -4,12 +4,16 @@ param logAnalyticsWorkspaceId string
 
 param faName string
 
-param iotHubConnectionStringKVReference string
+@secure()
+param iotHubConnectionString string
 
 param iotHubName string
 
 @secure()
 param signalRConnectionString string
+
+@secure()
+param cosmosDbConnectionString string
 
 resource AppInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: 'ai-we-raspiconsumer'
@@ -101,7 +105,7 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'IotHubConnectionString'
-          value: iotHubConnectionStringKVReference
+          value: iotHubConnectionString
         }
         {
           name: 'iotHubName'
@@ -110,6 +114,10 @@ resource FunctionApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'AzureSignalRConnectionString'
           value: signalRConnectionString
+        }
+        {
+          name: 'CosmosDBConnectionString'
+          value: cosmosDbConnectionString
         }
       ]
     }
